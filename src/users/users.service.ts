@@ -2,17 +2,46 @@ import { Injectable, NotFoundException } from "@nestjs/common"
 
 import { User } from "@prisma/client"
 
+import { DiscordWebhookService } from "../discord-webhook/discord-webhook.service"
 import { PrismaService } from "../prisma/prisma.service"
-import messageHelper from "src/helpers/message.helper"
+import messageHelper from "../helpers/message.helper"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { UpdateUserDto } from "./dto/update-user.dto"
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly discordWebhookService: DiscordWebhookService,
+    ) {}
 
     async create(createUserDto: CreateUserDto) {
-        return "This action adds a new user"
+        const user = await this.prisma.user.create({
+            data: {
+                email: createUserDto.email,
+                firebaseUid: createUserDto.firebaseUid,
+                username: createUserDto.username,
+                profile: {
+                    create: {
+                        name: createUserDto.name,
+                        avatarUrl: createUserDto.avatarUrl,
+                        biography: createUserDto.biography,
+                    },
+                },
+            },
+            include: {
+                profile: true,
+            },
+        })
+
+        this.discordWebhookService.safeNotify({
+            type: "success",
+            nameSuffix: "Creation",
+            title: `User Created: ${user.profile.name}`,
+            message: `\`\`\`json\n${JSON.stringify({ id: user.id, name: user.profile.name, email: user.email }, null, 4)}\`\`\``,
+        })
+
+        return user
     }
 
     async findOne(id: string, includeSensitiveInfo: boolean = false) {

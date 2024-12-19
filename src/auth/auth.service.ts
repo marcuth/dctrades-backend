@@ -1,9 +1,7 @@
 import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common"
-import { User } from "@prisma/client"
-
 import { FirebaseAdmin, InjectFirebaseAdmin } from "nestjs-firebase"
-
 import * as admin from "firebase-admin"
+import { User } from "@prisma/client"
 
 import { LoginOrRegisterDto } from "./dtos/login-or-register.dto"
 import generateUsername from "../utils/generate-username.util"

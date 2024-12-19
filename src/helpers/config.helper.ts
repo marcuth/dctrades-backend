@@ -23,6 +23,7 @@ const configHelper = {
     discordWebhookUrls: {
         users: process.env.DISCORD_WEBHOOK_USERS,
     },
+    firebasePrivateKey: JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
 }
 
 export default configHelper

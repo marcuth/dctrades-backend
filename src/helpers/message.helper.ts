@@ -1,9 +1,15 @@
 type Message = string | ((...args: any[]) => string)
 
+type ObjectNotFoundOptions = {
+    name: string
+    propertyValue: string
+    property?: string
+}
+
 const messageHelper = {
     INVALID_FIREBASE_AUTH_TOKEN: "Invalid Firebase Auth Token",
-    OBJECT_NOT_FOUND: (objectName: string, objectId?: string) =>
-        `The object '${objectName}' with ID '${objectId ?? "UNDEFINED"}' was not found in the database!`,
+    OBJECT_NOT_FOUND: ({ name, propertyValue, property = "id" }: ObjectNotFoundOptions) =>
+        `The object '${name}' with ${property} '${propertyValue ?? "UNDEFINED"}' was not found in the database!`,
     UNAUTHORIZED_USER: "",
     REQUEST_WITHOUT_AUTHORIZATION_TOKEN:
         "The request did not send any authorization token! Please provide a token to stop protected routes!",

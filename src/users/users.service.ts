@@ -56,7 +56,12 @@ export class UsersService {
         })
 
         if (!user) {
-            throw new NotFoundException(messageHelper.OBJECT_NOT_FOUND("User", id))
+            throw new NotFoundException(
+                messageHelper.OBJECT_NOT_FOUND({
+                    name: "User",
+                    propertyValue: id,
+                }),
+            )
         }
 
         return user
@@ -74,7 +79,13 @@ export class UsersService {
         })
 
         if (!user) {
-            throw new NotFoundException(messageHelper.OBJECT_NOT_FOUND("User", `email: ${email}`))
+            throw new NotFoundException(
+                messageHelper.OBJECT_NOT_FOUND({
+                    name: "User",
+                    propertyValue: user.email,
+                    property: "email",
+                }),
+            )
         }
 
         return user
@@ -92,7 +103,13 @@ export class UsersService {
         })
 
         if (!user) {
-            throw new NotFoundException(messageHelper.OBJECT_NOT_FOUND("User", `firebaseId: ${firebaseUid}`))
+            throw new NotFoundException(
+                messageHelper.OBJECT_NOT_FOUND({
+                    name: "User",
+                    propertyValue: user.firebaseUid,
+                    property: "firebaseUid",
+                }),
+            )
         }
 
         return user
@@ -110,13 +127,19 @@ export class UsersService {
         })
 
         if (!user) {
-            throw new NotFoundException(messageHelper.OBJECT_NOT_FOUND("User", `Username: ${username}`))
+            throw new NotFoundException(
+                messageHelper.OBJECT_NOT_FOUND({
+                    name: "User",
+                    propertyValue: user.username,
+                    property: "username",
+                }),
+            )
         }
 
         return user
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {
-        return 
+        return
     }
 }

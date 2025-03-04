@@ -1,5 +1,4 @@
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from "@nestjs/swagger"
-import { INestApplication } from "@nestjs/common"
 import { NestFactory } from "@nestjs/core"
 
 import configHelper from "./helpers/config.helper"
@@ -18,13 +17,6 @@ async function createSwaggerSpec(document: OpenAPIObject) {
     await fs.promises.writeFile("./swagger-spec.json", JSON.stringify(document))
 }
 
-async function showModules(app: INestApplication) {
-    const { SpelunkerModule } = await import("nestjs-spelunker")
-    const util = await import("util")
-
-    console.log(util.inspect(SpelunkerModule.explore(app), { depth: Infinity, colors: true }))
-}
-
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
         rawBody: true,
@@ -37,7 +29,6 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config)
 
     if (!configHelper.isProduction) {
-        await showModules(app)
         await createSwaggerSpec(document)
     }
 

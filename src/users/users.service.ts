@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
-
 import { User } from "@prisma/client"
 
 import { DiscordWebhookService } from "../discord-webhook/discord-webhook.service"
@@ -24,7 +23,6 @@ export class UsersService {
                 profile: {
                     create: {
                         name: createUserDto.name,
-                        avatarUrl: createUserDto.avatarUrl,
                         biography: createUserDto.biography,
                     },
                 },
@@ -119,6 +117,6 @@ export class UsersService {
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {
-        return `This action updates a #${id} user`
+        return 
     }
 }

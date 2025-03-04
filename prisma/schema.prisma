@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -13,38 +7,110 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum DragonRarity {
+    C @map("C")
+    R @map("R")
+    V @map("V")
+    E @map("E")
+    L @map("L")
+    M @map("M")
+    H @map("H")
+}
+
+enum UserRole {
+    ADMIN @map("ADMIN")
+    USER  @map("USER")
+}
+
+enum Language {
+    EN @map("en")
+    ES @map("es")
+    BR @map("br")
+    PT @map("pt")
+}
+
 model User {
-    id                    String           @id @default(uuid())
-    createdAt             DateTime         @default(now())
-    updatedAt             DateTime         @updatedAt
-    firebaseUid           String           @unique
-    stripeCustomerId      String?          @unique
-    mercadoPagoCustomerId String?          @unique
-    email                 String           @unique
-    username              String
-    profile               UserProfile?
-    preferences           UserPreferences?
+    id             String           @id @default(uuid())
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    firebaseUid    String           @unique
+    email          String           @unique
+    username       String
+    role           UserRole         @default(USER)
+    profile        UserProfile?
+    preferences    UserPreferences?
+    orbTradeOffers OrbTradeOffer[]
 
     @@map("users")
 }
 
+model UserAvatar {
+    id        String      @id @default(uuid())
+    profile   UserProfile @relation(fields: [profileId], references: [id])
+    profileId String      @unique
+    url       String?
+
+    @@map("user_avatars")
+}
+
 model UserProfile {
-    id        String               @id @default(uuid())
-    user      User                 @relation(fields: [userId], references: [id])
-    userId    String               @unique
+    id        String      @id @default(uuid())
+    user      User        @relation(fields: [userId], references: [id])
+    userId    String      @unique
     name      String
-    avatarUrl String?
+    avatar    UserAvatar?
     biography String?
 
     @@map("user_profiles")
 }
 
 model UserPreferences {
-    id           String   @id @default(uuid())
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
-    user         User     @relation(fields: [userId], references: [id])
-    userId       String   @unique
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    language  Language @default(EN)
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String   @unique
 
     @@map("user_preferences")
+}
+
+model Dragon {
+    id             Int             @id
+    nameKey        String
+    rarity         DragonRarity
+    category       Int
+    descriptionKey String?
+    imageName      String
+    offeredItems   OfferedItem[]
+    tradeOffers    OrbTradeOffer[]
+
+    @@map("dragons")
+}
+
+model OfferedItem {
+    id           String        @id @default(uuid())
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    quantity     Int
+    dragon       Dragon        @relation(fields: [dragonId], references: [id], onDelete: Cascade)
+    dragonId     Int
+    tradeOffer   OrbTradeOffer @relation(fields: [tradeOfferId], references: [id], onDelete: Cascade)
+    tradeOfferId String
+
+    @@map("offered_items")
+}
+
+model OrbTradeOffer {
+    id           String        @id @default(uuid())
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    quantity     Int
+    owner        User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+    ownerId      String
+    dragon       Dragon        @relation(fields: [dragonId], references: [id], onDelete: Cascade)
+    dragonId     Int
+    offeredItems OfferedItem[]
+
+    @@map("orb_trade_offers")
 }

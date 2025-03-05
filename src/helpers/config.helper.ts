@@ -20,6 +20,10 @@ const configHelper = {
             credentials: true,
         },
     },
+    dragons: {
+        minDragonId: 1000,
+        maxDragonId: 9999,
+    },
     discordWebhookUrls: {
         users: process.env.DISCORD_WEBHOOK_USERS_URL,
     },

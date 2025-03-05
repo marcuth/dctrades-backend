@@ -3,6 +3,7 @@ import { ApiProperty } from "@nestjs/swagger"
 import { Type } from "class-transformer"
 
 import { OfferedItemDto } from "./create-orb-trade-offer.dto"
+import configHelper from "../../helpers/config.helper"
 
 export class UpdateOrbTradeOfferDto {
     @ApiProperty()
@@ -17,8 +18,8 @@ export class UpdateOrbTradeOfferDto {
     @IsNumber()
     @IsInt()
     @IsPositive()
-    @Min(1000)
-    @Max(9999)
+    @Min(configHelper.dragons.minDragonId)
+    @Max(configHelper.dragons.maxDragonId)
     dragonId?: number
 
     @ApiProperty()

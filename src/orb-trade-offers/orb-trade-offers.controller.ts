@@ -25,17 +25,17 @@ export class OrbTradeOffersController {
     }
 
     @Get(":id")
-    findOne(@Param("id") id: string) {
-        return this.orbTradeOffersService.findOne(id)
+    async findOne(@Param("id") id: string) {
+        return await this.orbTradeOffersService.findOne(id)
     }
 
     @Patch(":id")
-    update(@Param("id") id: string, @Body() updateOrbTradeOfferDto: UpdateOrbTradeOfferDto) {
-        return this.orbTradeOffersService.update(id, updateOrbTradeOfferDto)
+    async update(@Param("id") id: string, @Body() updateOrbTradeOfferDto: UpdateOrbTradeOfferDto) {
+        return await this.orbTradeOffersService.update(id, updateOrbTradeOfferDto)
     }
 
     @Delete(":id")
-    remove(@Param("id") id: string) {
-        return this.orbTradeOffersService.remove(id)
+    async remove(@Param("id") id: string) {
+        return await this.orbTradeOffersService.remove(id)
     }
 }

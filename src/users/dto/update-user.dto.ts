@@ -4,13 +4,13 @@ import { ApiProperty } from "@nestjs/swagger"
 import regexHelper from "../../helpers/regex.helper"
 
 export class UpdateUserDto {
-    @IsOptional()
     @ApiProperty()
+    @IsOptional()
     @IsString()
     name?: string
 
-    @IsOptional()
     @ApiProperty()
+    @IsOptional()
     @IsString()
     @Matches(regexHelper.username)
     username?: string

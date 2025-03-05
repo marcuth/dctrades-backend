@@ -12,6 +12,10 @@ async function createSwaggerSpec(document: OpenAPIObject) {
             url: `https://localhost:${configHelper.app.port}`,
             description: "Dev",
         },
+        {
+            url: configHelper.app.productionUrl,
+            description: "Production",
+        },
     ]
 
     await fs.promises.writeFile("./swagger-spec.json", JSON.stringify(document))

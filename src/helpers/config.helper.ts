@@ -19,6 +19,7 @@ const configHelper = {
             origin: process.env.CORS_ORIGIN || true,
             credentials: true,
         },
+        productionUrl: "https://dctrades-backend.vercel.app"
     },
     dragons: {
         minDragonId: 1000,

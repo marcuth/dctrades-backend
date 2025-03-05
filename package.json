@@ -30,6 +30,7 @@
     "dotenv": "^16.4.7",
     "firebase-admin": "^12.7.0",
     "nestjs-firebase": "^10.5.1",
+    "prisma-pagination": "^0.2.3",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "webhook-discord": "^3.7.8"

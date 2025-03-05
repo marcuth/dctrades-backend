@@ -1,7 +1,9 @@
 import { IsArray, IsInt, IsNumber, IsPositive, IsString, IsUUID, Max, Min, ValidateNested } from "class-validator"
+import { ApiProperty } from "@nestjs/swagger"
 import { Type } from "class-transformer"
 
 export class OfferedItemDto {
+    @ApiProperty()
     @IsNumber()
     @IsInt()
     @IsPositive()
@@ -9,6 +11,7 @@ export class OfferedItemDto {
     @Max(9999)
     dragonId: number
 
+    @ApiProperty()
     @IsNumber()
     @IsInt()
     @IsPositive()
@@ -16,11 +19,13 @@ export class OfferedItemDto {
 }
 
 export class CreateOrbTradeOfferDto {
+    @ApiProperty()
     @IsNumber()
     @IsInt()
     @IsPositive()
     quantity: number
 
+    @ApiProperty()
     @IsNumber()
     @IsInt()
     @IsPositive()
@@ -28,10 +33,12 @@ export class CreateOrbTradeOfferDto {
     @Max(9999)
     dragonId: number
 
+    @ApiProperty()
     @IsString()
     @IsUUID()
     ownerId: string
 
+    @ApiProperty()
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => OfferedItemDto)

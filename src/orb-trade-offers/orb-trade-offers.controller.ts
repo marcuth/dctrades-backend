@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from "@nestjs/common"
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query } from "@nestjs/common"
 
 import { AuthenticatedRequest } from "../auth/types/authenticated-request.type"
 import { CreateOrbTradeOfferDto } from "./dto/create-orb-trade-offer.dto"
@@ -17,22 +17,25 @@ export class OrbTradeOffersController {
     }
 
     @Get()
-    findAll() {
-        return this.orbTradeOffersService.findAll()
+    async findAll(@Query("page") page: number = 1, @Query("perPage") perPage: number = 10) {
+        return await this.orbTradeOffersService.findAll({
+            page: page,
+            perPage: perPage,
+        })
     }
 
     @Get(":id")
     findOne(@Param("id") id: string) {
-        return this.orbTradeOffersService.findOne(+id)
+        return this.orbTradeOffersService.findOne(id)
     }
 
     @Patch(":id")
     update(@Param("id") id: string, @Body() updateOrbTradeOfferDto: UpdateOrbTradeOfferDto) {
-        return this.orbTradeOffersService.update(+id, updateOrbTradeOfferDto)
+        return this.orbTradeOffersService.update(id, updateOrbTradeOfferDto)
     }
 
     @Delete(":id")
     remove(@Param("id") id: string) {
-        return this.orbTradeOffersService.remove(+id)
+        return this.orbTradeOffersService.remove(id)
     }
 }

@@ -29,6 +29,23 @@ enum Language {
     PT @map("pt")
 }
 
+enum UserContactType {
+    DISCORD  @map("DUISCORD")
+    TELEGRAM @map("TELEGRAM")
+    EMAIL    @map("EMAIL")
+    WHATSAPP @map("WHATSAPP")
+}
+
+model UserContact {
+    id         String          @id @default(uuid())
+    type       UserContactType
+    attributes Json
+    userId     String
+    user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("contacts")
+}
+
 model User {
     id             String           @id @default(uuid())
     createdAt      DateTime         @default(now())
@@ -40,6 +57,7 @@ model User {
     profile        UserProfile?
     preferences    UserPreferences?
     orbTradeOffers OrbTradeOffer[]
+    contacts       UserContact[]
 
     @@map("users")
 }

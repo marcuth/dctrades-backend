@@ -32,6 +32,9 @@ const configHelper = {
             defaultPage: 1,
         },
     },
+    contacts: {
+        allowedTypes: ["discord", "telegram", "email", "whatsapp"],
+    },
     discordWebhookUrls: {
         users: process.env.DISCORD_WEBHOOK_USERS_URL,
     },

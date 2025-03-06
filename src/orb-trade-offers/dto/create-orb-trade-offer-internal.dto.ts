@@ -2,8 +2,8 @@ import { IsArray, IsInt, IsNumber, IsPositive, IsString, IsUUID, Max, Min, Valid
 import { ApiProperty } from "@nestjs/swagger"
 import { Type } from "class-transformer"
 
-import configHelper from "../../helpers/config.helper"
 import { CreateOfferedItemDto } from "./create-orb-trade-offer.dto"
+import configHelper from "../../helpers/config.helper"
 
 export class CreateOrbTradeOfferInternalDto {
     @ApiProperty()

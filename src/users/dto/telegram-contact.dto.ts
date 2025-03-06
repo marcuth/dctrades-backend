@@ -1,7 +1,12 @@
-import { IsString, MinLength } from "class-validator"
+import { IsString, Matches } from "class-validator"
+
+import { ApiProperty } from "@nestjs/swagger"
+
+import regexHelper from "../../helpers/regex.helper"
 
 export class TelegramContactDto {
+    @ApiProperty()
     @IsString()
-    @MinLength(1, { message: "O nome de usuário do Telegram é obrigatório." })
+    @Matches(regexHelper.telegramUsername)
     telegramUsername: string
 }

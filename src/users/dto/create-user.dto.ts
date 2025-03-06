@@ -28,9 +28,4 @@ export class CreateUserDto {
     @IsOptional()
     @IsUrl()
     avatarUrl?: string
-
-    @ApiProperty()
-    @IsOptional()
-    @IsString()
-    biography?: string
 }

@@ -1,11 +1,17 @@
-import { IsString, MinLength } from "class-validator"
+import { IsString, Matches } from "class-validator"
+
+import { ApiProperty } from "@nestjs/swagger"
+
+import regexHelper from "../../helpers/regex.helper"
 
 export class DiscordContactDto {
+    @ApiProperty()
     @IsString()
-    @MinLength(1, { message: "O ID do Discord é obrigatório." })
+    @Matches(regexHelper.discordUserId)
     discordUserId: string
 
+    @ApiProperty()
     @IsString()
-    @MinLength(1, { message: "O nome de usuário do Discord é obrigatório." })
+    @Matches(regexHelper.discordUsername)
     discordUsername: string
 }

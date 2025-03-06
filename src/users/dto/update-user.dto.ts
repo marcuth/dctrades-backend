@@ -1,6 +1,9 @@
-import { IsOptional, IsString, Matches } from "class-validator"
+import { IsArray, IsOptional, IsString, Matches, ValidateNested } from "class-validator"
 import { ApiProperty } from "@nestjs/swagger"
 
+import { Type } from "class-transformer"
+
+import { CreateContactDto } from "./create-contact.dto"
 import regexHelper from "../../helpers/regex.helper"
 
 export class UpdateUserDto {
@@ -14,4 +17,16 @@ export class UpdateUserDto {
     @IsString()
     @Matches(regexHelper.username)
     username?: string
+
+    @ApiProperty()
+    @IsOptional()
+    @IsString()
+    biography?: string
+
+    @ApiProperty()
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => CreateContactDto)
+    contacts?: CreateContactDto[]
 }

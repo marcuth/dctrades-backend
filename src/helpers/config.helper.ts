@@ -27,8 +27,8 @@ const configHelper = {
     },
     orbTradeOffers: {
         pagination: {
-            defaultLimit: 10,
-            maxLimit: 100,
+            defaultPerPage: 10,
+            maxPerPage: 100,
             defaultPage: 1,
         }
     },

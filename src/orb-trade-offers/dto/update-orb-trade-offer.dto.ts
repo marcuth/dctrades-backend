@@ -2,7 +2,7 @@ import { IsArray, IsInt, IsNumber, IsOptional, IsPositive, Max, Min, ValidateNes
 import { ApiProperty } from "@nestjs/swagger"
 import { Type } from "class-transformer"
 
-import { OfferedItemDto } from "./create-orb-trade-offer.dto"
+import { CreateOfferedItemDto } from "./create-orb-trade-offer.dto"
 import configHelper from "../../helpers/config.helper"
 
 export class UpdateOrbTradeOfferDto {
@@ -26,6 +26,6 @@ export class UpdateOrbTradeOfferDto {
     @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })
-    @Type(() => OfferedItemDto)
-    offeredItems?: OfferedItemDto[]
+    @Type(() => CreateOfferedItemDto)
+    offeredItems?: CreateOfferedItemDto[]
 }

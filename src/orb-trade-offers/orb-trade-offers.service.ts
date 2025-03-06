@@ -3,18 +3,18 @@ import { Injectable, NotFoundException } from "@nestjs/common"
 import { createPaginator, PaginateOptions } from "prisma-pagination"
 import { Prisma } from "@prisma/client"
 
-import { CreateOrbTradeOfferDto } from "./dto/create-orb-trade-offer.dto"
+
 import { UpdateOrbTradeOfferDto } from "./dto/update-orb-trade-offer.dto"
 import { OrbTradeOfferDto } from "./dto/orb-trade-offer.dto"
 import { PrismaService } from "../prisma/prisma.service"
-import messageHelper from "src/helpers/message.helper"
-import configHelper from "src/helpers/config.helper"
+import messageHelper from "../helpers/message.helper"
+import { CreateOrbTradeOfferInternalDto } from "./dto/create-orb-trade-offer-internal.dto"
 
 @Injectable()
 export class OrbTradeOffersService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async create(createOrbTradeOfferDto: CreateOrbTradeOfferDto) {
+    async create(createOrbTradeOfferDto: CreateOrbTradeOfferInternalDto) {
         return await this.prisma.orbTradeOffer.create({
             data: {
                 quantity: createOrbTradeOfferDto.quantity,

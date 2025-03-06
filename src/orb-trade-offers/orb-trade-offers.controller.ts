@@ -2,11 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Quer
 
 import { OwnershipGuardFactory } from "../common/factories/ownership-guard.factory"
 import { AuthenticatedRequest } from "../auth/types/authenticated-request.type"
-import { CreateOrbTradeOfferDto } from "./dto/create-orb-trade-offer.dto"
+import { CreateOrbTradeOfferInternalDto } from "./dto/create-orb-trade-offer-internal.dto"
 import { UpdateOrbTradeOfferDto } from "./dto/update-orb-trade-offer.dto"
 import { OrbTradeOffersService } from "./orb-trade-offers.service"
 import { AuthGuard } from "../auth/guards/auth.guard"
 import configHelper from "../helpers/config.helper"
+import { CreateOrbTradeOfferDto } from "./dto/create-orb-trade-offer.dto"
 
 @Controller("orb-trade-offers")
 export class OrbTradeOffersController {
@@ -15,7 +16,10 @@ export class OrbTradeOffersController {
     @Post()
     @UseGuards(AuthGuard)
     async create(@Body() createOrbTradeOfferDto: CreateOrbTradeOfferDto, @Req() req: AuthenticatedRequest) {
-        return await this.orbTradeOffersService.create(createOrbTradeOfferDto)
+        return await this.orbTradeOffersService.create({
+            ...createOrbTradeOfferDto,
+            ownerId: req.user.id
+        })
     }
 
     @Get()

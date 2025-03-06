@@ -30,7 +30,7 @@ const configHelper = {
             defaultPerPage: 10,
             maxPerPage: 100,
             defaultPage: 1,
-        }
+        },
     },
     discordWebhookUrls: {
         users: process.env.DISCORD_WEBHOOK_USERS_URL,

@@ -6,7 +6,7 @@ import { CreateOrbTradeOfferDto } from "./dto/create-orb-trade-offer.dto"
 import { UpdateOrbTradeOfferDto } from "./dto/update-orb-trade-offer.dto"
 import { OrbTradeOffersService } from "./orb-trade-offers.service"
 import { AuthGuard } from "../auth/guards/auth.guard"
-import configHelper from "src/helpers/config.helper"
+import configHelper from "../helpers/config.helper"
 
 @Controller("orb-trade-offers")
 export class OrbTradeOffersController {
@@ -19,7 +19,10 @@ export class OrbTradeOffersController {
     }
 
     @Get()
-    async findAll(@Query("page") page: number = configHelper.orbTradeOffers.pagination.defaultPage, @Query("perPage") perPage: number = configHelper.orbTradeOffers.pagination.defaultPerPage) {
+    async findAll(
+        @Query("page") page: number = configHelper.orbTradeOffers.pagination.defaultPage,
+        @Query("perPage") perPage: number = configHelper.orbTradeOffers.pagination.defaultPerPage,
+    ) {
         return await this.orbTradeOffersService.findAll({
             page: Math.max(page, configHelper.orbTradeOffers.pagination.defaultPage),
             perPage: Math.min(perPage, configHelper.orbTradeOffers.pagination.maxPerPage),

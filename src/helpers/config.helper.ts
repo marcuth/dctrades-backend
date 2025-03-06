@@ -19,11 +19,18 @@ const configHelper = {
             origin: process.env.CORS_ORIGIN || true,
             credentials: true,
         },
-        productionUrl: "https://dctrades-backend.vercel.app"
+        productionUrl: "https://dctrades-backend.vercel.app",
     },
     dragons: {
         minDragonId: 1000,
         maxDragonId: 9999,
+    },
+    orbTradeOffers: {
+        pagination: {
+            defaultLimit: 10,
+            maxLimit: 100,
+            defaultPage: 1,
+        }
     },
     discordWebhookUrls: {
         users: process.env.DISCORD_WEBHOOK_USERS_URL,

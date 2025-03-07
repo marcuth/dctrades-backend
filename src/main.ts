@@ -27,7 +27,7 @@ async function bootstrap() {
     app.useGlobalPipes(configHelper.app.validationPipe)
     app.enableCors(configHelper.app.cors)
 
-    const config = new DocumentBuilder().setTitle("Documentação").setVersion("1.0").build()
+    const config = new DocumentBuilder().setTitle("Documentação da API - DC Trades").setVersion("1.0").build()
     const document = SwaggerModule.createDocument(app, config)
 
     if (!configHelper.isProduction) {

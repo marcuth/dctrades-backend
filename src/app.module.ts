@@ -5,6 +5,7 @@ import { FirebaseModule } from "nestjs-firebase"
 import { OrbTradeOffersModule } from "./orb-trade-offers/orb-trade-offers.module"
 import { PrismaModule } from "./prisma/prisma.module"
 import configHelper from "./helpers/config.helper"
+import { ImgbbModule } from "./imgbb/imgbb.module"
 import { UsersModule } from "./users/users.module"
 
 @Module({
@@ -13,6 +14,7 @@ import { UsersModule } from "./users/users.module"
         UsersModule,
         PrismaModule,
         OrbTradeOffersModule,
+        ImgbbModule,
     ],
 })
 export class AppModule {}

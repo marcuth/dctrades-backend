@@ -25,9 +25,9 @@ export class UsersService {
                         name: createUserDto.name,
                         avatar: {
                             create: {
-                                url: createUserDto.avatarUrl
-                            }
-                        }
+                                url: createUserDto.avatarUrl,
+                            },
+                        },
                     },
                 },
             },

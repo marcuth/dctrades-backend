@@ -23,7 +23,11 @@ export class UsersService {
                 profile: {
                     create: {
                         name: createUserDto.name,
-                        biography: createUserDto.biography,
+                        avatar: {
+                            create: {
+                                url: createUserDto.avatarUrl
+                            }
+                        }
                     },
                 },
             },

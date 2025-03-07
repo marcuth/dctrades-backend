@@ -10,7 +10,7 @@ export class ImgBBService {
 
     async uploadImage(imageBuffer: Buffer): Promise<string> {
         const apiKey = this.configService.get<string>("IMGBB_API_KEY")
-        
+
         if (!apiKey) {
             throw new HttpException("ImgBB API key is not configured", HttpStatus.INTERNAL_SERVER_ERROR)
         }

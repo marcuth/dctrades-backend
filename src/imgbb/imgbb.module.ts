@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common"
 
-import { ImgbbService } from "./imgbb.service"
+import { ImgBBService } from "./imgbb.service"
 
 @Module({
-    providers: [ImgbbService],
+    providers: [ImgBBService],
 })
-export class ImgbbModule {}
+export class ImgBBModule {}

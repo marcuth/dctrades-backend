@@ -3,11 +3,11 @@ import { ApiProperty } from "@nestjs/swagger"
 
 export class LoginOrRegisterDto {
     @ApiProperty()
-    @IsNotEmpty()
     @IsString()
+    @IsNotEmpty()
     token: string
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
     name?: string

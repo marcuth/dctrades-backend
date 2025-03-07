@@ -7,34 +7,34 @@ import configHelper from "../../helpers/config.helper"
 import regexHelper from "../../helpers/regex.helper"
 
 export class UpdateUserDto {
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
     name?: string
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
     @Matches(regexHelper.username)
     username?: string
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
     biography?: string
 
-    @ApiProperty({ type: "string", format: "binary" })
+    @ApiProperty({ type: "string", format: "binary", required: false })
     @IsOptional()
     avatar?: Express.Multer.File
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => CreateContactDto)
     contacts?: CreateContactDto[]
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
     @IsEnum(configHelper.users.allowedLanguages)

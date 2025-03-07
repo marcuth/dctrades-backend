@@ -6,14 +6,14 @@ import { CreateOfferedItemDto } from "./create-orb-trade-offer.dto"
 import configHelper from "../../helpers/config.helper"
 
 export class UpdateOrbTradeOfferDto {
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsNumber()
     @IsInt()
     @IsPositive()
     quantity?: number
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsNumber()
     @IsInt()
@@ -22,7 +22,7 @@ export class UpdateOrbTradeOfferDto {
     @Max(configHelper.dragons.maxDragonId)
     dragonId?: number
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })

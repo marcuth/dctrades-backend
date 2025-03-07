@@ -19,7 +19,10 @@ export class ImgBBService {
 
         try {
             const response = await axios.post(this.apiUrl, null, {
-                params: { key: apiKey, image: base64Image },
+                params: {
+                    key: apiKey,
+                    image: base64Image
+                },
             })
 
             return response.data.data.url

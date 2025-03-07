@@ -1,4 +1,5 @@
-import { Controller, Get, Body, Patch, Param, UseGuards, Req } from "@nestjs/common"
+import { Controller, Get, Body, Patch, Param, UseGuards, Req, UseInterceptors, UploadedFile } from "@nestjs/common"
+import { FileInterceptor } from "@nestjs/platform-express"
 
 import { OptionalAuthenticatedRequest } from "../auth/types/optional-authenticated-request.type"
 import { AuthenticatedRequest } from "../auth/types/authenticated-request.type"
@@ -49,7 +50,11 @@ export class UsersController {
 
     @Patch()
     @UseGuards(AuthGuard)
-    async update(@Body() updateUserDto: UpdateUserDto, @Req() req: AuthenticatedRequest) {
-        return await this.usersService.update(req.user.id, updateUserDto)
+    @UseInterceptors(FileInterceptor("avatar"))
+    async update(@Body() updateUserDto: UpdateUserDto, @Req() req: AuthenticatedRequest, @UploadedFile() avatar?: Express.Multer.File) {
+        return await this.usersService.update(req.user.id, {
+            ...updateUserDto,
+            avatar: avatar
+        })
     }
 }

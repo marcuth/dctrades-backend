@@ -9,10 +9,12 @@ import { DiscordContactDto } from "./discord-contact.dto"
 import configHelper from "../../helpers/config.helper"
 import { EmailContactDto } from "./email-contact.dto"
 
+export type AllowedContactType = "DISCORD" | "TELEGRAM" | "EMAIL" | "WHATSAPP"
+
 export class CreateContactDto {
     @ApiProperty()
     @IsEnum(configHelper.contacts.allowedTypes)
-    type: string
+    type: AllowedContactType
 
     @ApiProperty()
     @IsObject()

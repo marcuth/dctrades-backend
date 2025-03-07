@@ -21,6 +21,9 @@ const configHelper = {
         },
         productionUrl: "https://dctrades-backend.vercel.app",
     },
+    users: {
+        allowedLanguages: ["br", "pt", "en", "es"]
+    },
     dragons: {
         minDragonId: 1000,
         maxDragonId: 9999,
@@ -33,7 +36,7 @@ const configHelper = {
         },
     },
     contacts: {
-        allowedTypes: ["discord", "telegram", "email", "whatsapp"],
+        allowedTypes: ["DISCORD", "TELEGRAM", "EMAIL", "WHATSAPP"],
     },
     discordWebhookUrls: {
         users: process.env.DISCORD_WEBHOOK_USERS_URL,

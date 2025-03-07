@@ -1,17 +1,20 @@
-import { Injectable, NotFoundException } from "@nestjs/common"
-import { User } from "@prisma/client"
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common"
+import { Prisma, User } from "@prisma/client"
+import sharp from "sharp"
 
 import { DiscordWebhookService } from "../discord-webhook/discord-webhook.service"
 import { PrismaService } from "../prisma/prisma.service"
 import messageHelper from "../helpers/message.helper"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { UpdateUserDto } from "./dto/update-user.dto"
+import { ImgBBService } from "../imgbb/imgbb.service"
 
 @Injectable()
 export class UsersService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly discordWebhookService: DiscordWebhookService,
+        private readonly imgBBService: ImgBBService
     ) {}
 
     async create(createUserDto: CreateUserDto) {
@@ -33,6 +36,7 @@ export class UsersService {
             },
             include: {
                 profile: true,
+                preferences: true
             },
         })
 
@@ -73,9 +77,12 @@ export class UsersService {
 
     async findByEmail(email: string, includeSensitiveInfo: boolean = false): Promise<User> {
         const user = await this.prisma.user.findFirst({
-            where: { email: email },
+            where: {
+                email: email
+            },
             include: {
                 profile: true,
+                contacts: true,
                 ...(includeSensitiveInfo && {
                     preferences: true,
                 }),
@@ -97,9 +104,12 @@ export class UsersService {
 
     async findOneByFirebaseUid(firebaseUid: string, includeSensitiveInfo: boolean = false): Promise<User> {
         const user = await this.prisma.user.findFirst({
-            where: { firebaseUid: firebaseUid },
+            where: {
+                firebaseUid: firebaseUid
+            },
             include: {
                 profile: true,
+                contacts: true,
                 ...(includeSensitiveInfo && {
                     preferences: true,
                 }),
@@ -124,6 +134,7 @@ export class UsersService {
             where: { username: username },
             include: {
                 profile: true,
+                contacts: true,
                 ...(includeSensitiveInfo && {
                     preferences: true,
                 }),
@@ -144,6 +155,69 @@ export class UsersService {
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {
-        return
+        let avatarUrl: string | undefined
+
+        if (updateUserDto.avatar) {
+            const avatarFile = updateUserDto.avatar
+
+            if (!avatarFile.mimetype.startsWith("image/")) {
+                throw new BadRequestException(messageHelper.FILE_IS_NOT_IMAGE)
+            }
+    
+            const metadata = await sharp(avatarFile.buffer).metadata()
+    
+            if (metadata.width !== metadata.height) {
+                throw new BadRequestException(messageHelper.NON_PROPORTIONAL_IMAGE)
+            }
+    
+            const resizedImage = await sharp(avatarFile.buffer)
+                .resize(500, 500)
+                .jpeg({ quality: 90 })
+                .toBuffer()
+    
+            avatarUrl = await this.imgBBService.uploadImage(resizedImage)
+        }
+        
+        return await this.prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                username: updateUserDto.username,
+                profile: {
+                    update: {
+                        name: updateUserDto.name,
+                        biography: updateUserDto.biography,
+                        avatar: avatarUrl
+                            ? {
+                                update: {
+                                    url: avatarUrl,
+                                },
+                            }
+                            : undefined,
+                    }
+                },
+                contacts: {
+                    deleteMany: {},
+                    createMany: {
+                        data: updateUserDto.contacts.map(contact => {
+                            return {
+                                type: contact.type,
+                                attributes: contact.attributes as unknown as Prisma.JsonObject
+                            }
+                        })
+                    },
+                }
+            },
+            include: {
+                profile: {
+                    include: {
+                        avatar: true
+                    }
+                },
+                contacts: true,
+                preferences: true
+            }
+        })
     }
 }

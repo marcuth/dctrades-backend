@@ -51,10 +51,14 @@ export class UsersController {
     @Patch()
     @UseGuards(AuthGuard)
     @UseInterceptors(FileInterceptor("avatar"))
-    async update(@Body() updateUserDto: UpdateUserDto, @Req() req: AuthenticatedRequest, @UploadedFile() avatar?: Express.Multer.File) {
+    async update(
+        @Body() updateUserDto: UpdateUserDto,
+        @Req() req: AuthenticatedRequest,
+        @UploadedFile() avatar?: Express.Multer.File,
+    ) {
         return await this.usersService.update(req.user.id, {
             ...updateUserDto,
-            avatar: avatar
+            avatar: avatar,
         })
     }
 }

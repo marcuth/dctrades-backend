@@ -5,16 +5,16 @@ import sharp from "sharp"
 import { DiscordWebhookService } from "../discord-webhook/discord-webhook.service"
 import { PrismaService } from "../prisma/prisma.service"
 import messageHelper from "../helpers/message.helper"
+import { ImgBBService } from "../imgbb/imgbb.service"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { UpdateUserDto } from "./dto/update-user.dto"
-import { ImgBBService } from "../imgbb/imgbb.service"
 
 @Injectable()
 export class UsersService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly discordWebhookService: DiscordWebhookService,
-        private readonly imgBBService: ImgBBService
+        private readonly imgBBService: ImgBBService,
     ) {}
 
     async create(createUserDto: CreateUserDto) {
@@ -36,7 +36,7 @@ export class UsersService {
             },
             include: {
                 profile: true,
-                preferences: true
+                preferences: true,
             },
         })
 
@@ -78,7 +78,7 @@ export class UsersService {
     async findByEmail(email: string, includeSensitiveInfo: boolean = false): Promise<User> {
         const user = await this.prisma.user.findFirst({
             where: {
-                email: email
+                email: email,
             },
             include: {
                 profile: true,
@@ -105,7 +105,7 @@ export class UsersService {
     async findOneByFirebaseUid(firebaseUid: string, includeSensitiveInfo: boolean = false): Promise<User> {
         const user = await this.prisma.user.findFirst({
             where: {
-                firebaseUid: firebaseUid
+                firebaseUid: firebaseUid,
             },
             include: {
                 profile: true,
@@ -163,24 +163,21 @@ export class UsersService {
             if (!avatarFile.mimetype.startsWith("image/")) {
                 throw new BadRequestException(messageHelper.FILE_IS_NOT_IMAGE)
             }
-    
+
             const metadata = await sharp(avatarFile.buffer).metadata()
-    
+
             if (metadata.width !== metadata.height) {
                 throw new BadRequestException(messageHelper.NON_PROPORTIONAL_IMAGE)
             }
-    
-            const resizedImage = await sharp(avatarFile.buffer)
-                .resize(500, 500)
-                .jpeg({ quality: 90 })
-                .toBuffer()
-    
+
+            const resizedImage = await sharp(avatarFile.buffer).resize(500, 500).jpeg({ quality: 90 }).toBuffer()
+
             avatarUrl = await this.imgBBService.uploadImage(resizedImage)
         }
-        
+
         return await this.prisma.user.update({
             where: {
-                id: id
+                id: id,
             },
             data: {
                 username: updateUserDto.username,
@@ -190,34 +187,34 @@ export class UsersService {
                         biography: updateUserDto.biography,
                         avatar: avatarUrl
                             ? {
-                                update: {
-                                    url: avatarUrl,
-                                },
-                            }
+                                  update: {
+                                      url: avatarUrl,
+                                  },
+                              }
                             : undefined,
-                    }
+                    },
                 },
                 contacts: {
                     deleteMany: {},
                     createMany: {
-                        data: updateUserDto.contacts.map(contact => {
+                        data: updateUserDto.contacts.map((contact) => {
                             return {
                                 type: contact.type,
-                                attributes: contact.attributes as unknown as Prisma.JsonObject
+                                attributes: contact.attributes as unknown as Prisma.JsonObject,
                             }
-                        })
+                        }),
                     },
-                }
+                },
             },
             include: {
                 profile: {
                     include: {
-                        avatar: true
-                    }
+                        avatar: true,
+                    },
                 },
                 contacts: true,
-                preferences: true
-            }
+                preferences: true,
+            },
         })
     }
 }

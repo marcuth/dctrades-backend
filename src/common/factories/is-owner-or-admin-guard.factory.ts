@@ -1,15 +1,15 @@
 import { CanActivate, Inject, Injectable, Type } from "@nestjs/common"
 
 import { ResourceService } from "../interfaces/resource-service.interface"
-import { OwnershipGuard } from "../guards/ownership.guard"
+import { IsOnwnerOrAdminGuard } from "../guards/is-owner-or-admin.guard"
 
-export function OwnershipGuardFactory<T>(ownerIdProperty: string): Type<CanActivate> {
+export function IsOwnerOrAdminGuardFactory<T>(ownerIdProperty: string): Type<CanActivate> {
     @Injectable()
-    class InternalOwnershipGuard extends OwnershipGuard<T> {
+    class InternalIsOwnerOrAdminGuard extends IsOnwnerOrAdminGuard<T> {
         constructor(@Inject("RESOURCE_SERVICE") resourceService: ResourceService<T>) {
             super(resourceService, ownerIdProperty)
         }
     }
 
-    return InternalOwnershipGuard
+    return InternalIsOwnerOrAdminGuard
 }

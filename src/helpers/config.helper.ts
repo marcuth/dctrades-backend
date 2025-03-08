@@ -22,7 +22,7 @@ const configHelper = {
         productionUrl: "https://dctrades-backend.vercel.app",
     },
     users: {
-        allowedLanguages: ["br", "pt", "en", "es"]
+        allowedLanguages: ["br", "pt", "en", "es"],
     },
     dragons: {
         minDragonId: 1000,

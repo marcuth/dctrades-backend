@@ -17,7 +17,7 @@ const messageHelper = {
         "This authorization token is invalid for some reason! Please try renewing it or try again!",
     NO_IMAGES_SENT: "No images were sent.",
     NON_PROPORTIONAL_IMAGE: "The image must be square.",
-    FILE_IS_NOT_IMAGE: "The uploaded file is not an image."
+    FILE_IS_NOT_IMAGE: "The uploaded file is not an image.",
 } satisfies Record<string, Message>
 
 export default messageHelper

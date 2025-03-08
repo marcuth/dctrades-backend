@@ -4,7 +4,7 @@ import { User } from "@prisma/client"
 import { ResourceService } from "../interfaces/resource-service.interface"
 import messageHelper from "../../helpers/message.helper"
 
-export class OwnerShipGuard<T> {
+export class OwnershipGuard<T> {
     constructor(
         @Inject("RESOURCE_SERVICE") private readonly resourceService: ResourceService<T>,
         private readonly ownerIdProperty: string,

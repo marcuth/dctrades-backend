@@ -6,6 +6,6 @@ import { ImgBBService } from "./imgbb.service"
 @Module({
     imports: [ConfigModule.forRoot()],
     providers: [ImgBBService],
-    exports: [ImgBBService]
+    exports: [ImgBBService],
 })
 export class ImgBBModule {}

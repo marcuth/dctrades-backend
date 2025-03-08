@@ -1,5 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query } from "@nestjs/common"
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, ParseIntPipe } from "@nestjs/common"
+import { OrbTradeOffer } from "@prisma/client"
 
+import { IsOwnerOrAdminGuardFactory } from "../common/factories/is-owner-or-admin-guard.factory"
 import { OwnershipGuardFactory } from "../common/factories/ownership-guard.factory"
 import { AuthenticatedRequest } from "../auth/types/authenticated-request.type"
 import { UpdateOrbTradeOfferDto } from "./dto/update-orb-trade-offer.dto"
@@ -23,8 +25,8 @@ export class OrbTradeOffersController {
 
     @Get()
     async findAll(
-        @Query("page") page: number = configHelper.orbTradeOffers.pagination.defaultPage,
-        @Query("perPage") perPage: number = configHelper.orbTradeOffers.pagination.defaultPerPage,
+        @Query("page", ParseIntPipe) page: number = configHelper.orbTradeOffers.pagination.defaultPage,
+        @Query("perPage", ParseIntPipe) perPage: number = configHelper.orbTradeOffers.pagination.defaultPerPage,
     ) {
         return await this.orbTradeOffersService.findAll({
             page: Math.max(page, configHelper.orbTradeOffers.pagination.defaultPage),
@@ -38,13 +40,13 @@ export class OrbTradeOffersController {
     }
 
     @Patch(":id")
-    @UseGuards(AuthGuard, OwnershipGuardFactory("ownerId"))
+    @UseGuards(AuthGuard, OwnershipGuardFactory<OrbTradeOffer>("ownerId"))
     async update(@Param("id") id: string, @Body() updateOrbTradeOfferDto: UpdateOrbTradeOfferDto) {
         return await this.orbTradeOffersService.update(id, updateOrbTradeOfferDto)
     }
 
     @Delete(":id")
-    @UseGuards(AuthGuard, OwnershipGuardFactory("ownerId"))
+    @UseGuards(AuthGuard, IsOwnerOrAdminGuardFactory<OrbTradeOffer>("ownerId"))
     async remove(@Param("id") id: string) {
         return await this.orbTradeOffersService.remove(id)
     }

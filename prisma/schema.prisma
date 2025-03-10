@@ -8,18 +8,18 @@ datasource db {
 }
 
 enum DragonRarity {
-    C @map("C")
-    R @map("R")
-    V @map("V")
-    E @map("E")
-    L @map("L")
-    M @map("M")
-    H @map("H")
+    C
+    R
+    V
+    E
+    L
+    M
+    H
 }
 
 enum UserRole {
-    ADMIN @map("ADMIN")
-    USER  @map("USER")
+    ADMIN
+    USER
 }
 
 enum Language {
@@ -30,10 +30,10 @@ enum Language {
 }
 
 enum UserContactType {
-    DISCORD  @map("DUISCORD")
-    TELEGRAM @map("TELEGRAM")
-    EMAIL    @map("EMAIL")
-    WHATSAPP @map("WHATSAPP")
+    DISCORD
+    TELEGRAM
+    EMAIL
+    WHATSAPP
 }
 
 model UserContact {

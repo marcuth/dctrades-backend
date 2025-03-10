@@ -7,7 +7,7 @@ import { AuthenticatedRequest } from "../auth/types/authenticated-request.type"
 import { UpdateOrbTradeOfferDto } from "./dto/update-orb-trade-offer.dto"
 import { CreateOrbTradeOfferDto } from "./dto/create-orb-trade-offer.dto"
 import { OrbTradeOffersService } from "./orb-trade-offers.service"
-import { AuthGuard } from "../auth/guards/auth.guard"
+import { FirebaseAuthGuard } from "../auth/guards/firebase-auth.guard"
 import configHelper from "../helpers/config.helper"
 
 @Controller("orb-trade-offers")
@@ -15,7 +15,7 @@ export class OrbTradeOffersController {
     constructor(private readonly orbTradeOffersService: OrbTradeOffersService) {}
 
     @Post()
-    @UseGuards(AuthGuard)
+    @UseGuards(FirebaseAuthGuard)
     async create(@Body() createOrbTradeOfferDto: CreateOrbTradeOfferDto, @Req() req: AuthenticatedRequest) {
         return await this.orbTradeOffersService.create({
             ...createOrbTradeOfferDto,
@@ -40,13 +40,13 @@ export class OrbTradeOffersController {
     }
 
     @Patch(":id")
-    @UseGuards(AuthGuard, OwnershipGuardFactory<OrbTradeOffer>("ownerId"))
+    @UseGuards(FirebaseAuthGuard, OwnershipGuardFactory<OrbTradeOffer>("ownerId"))
     async update(@Param("id") id: string, @Body() updateOrbTradeOfferDto: UpdateOrbTradeOfferDto) {
         return await this.orbTradeOffersService.update(id, updateOrbTradeOfferDto)
     }
 
     @Delete(":id")
-    @UseGuards(AuthGuard, IsOwnerOrAdminGuardFactory<OrbTradeOffer>("ownerId"))
+    @UseGuards(FirebaseAuthGuard, IsOwnerOrAdminGuardFactory<OrbTradeOffer>("ownerId"))
     async remove(@Param("id") id: string) {
         return await this.orbTradeOffersService.remove(id)
     }

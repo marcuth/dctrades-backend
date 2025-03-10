@@ -5,7 +5,7 @@ import { UsersService } from "../../users/users.service"
 import { AuthService } from "../auth.service"
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class FirebaseAuthGuard implements CanActivate {
     constructor(
         private readonly authService: AuthService,
         private readonly usersService: UsersService,

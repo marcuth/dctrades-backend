@@ -2,8 +2,9 @@ import { IsArray, IsEnum, IsOptional, IsString, Matches, ValidateNested } from "
 import { ApiProperty } from "@nestjs/swagger"
 import { Type } from "class-transformer"
 
+import { Language } from "@prisma/client"
+
 import { CreateContactDto } from "./create-contact.dto"
-import configHelper from "../../helpers/config.helper"
 import regexHelper from "../../helpers/regex.helper"
 
 export class UpdateUserDto {
@@ -37,6 +38,6 @@ export class UpdateUserDto {
     @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
-    @IsEnum(configHelper.users.allowedLanguages)
-    language?: string
+    @IsEnum(Language)
+    language?: Language
 }

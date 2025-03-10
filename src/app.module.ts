@@ -7,11 +7,13 @@ import { PrismaModule } from "./prisma/prisma.module"
 import configHelper from "./helpers/config.helper"
 import { ImgBBModule } from "./imgbb/imgbb.module"
 import { UsersModule } from "./users/users.module"
+import { AuthModule } from "./auth/auth.module"
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
         FirebaseModule.forRoot({ googleApplicationCredential: configHelper.firebasePrivateKey }),
+        AuthModule,
         UsersModule,
         PrismaModule,
         OrbTradeOffersModule,

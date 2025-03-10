@@ -11,8 +11,8 @@ import { UsersService } from "./users.service"
 @Module({
     imports: [
         DiscordWebhookModule.forFeature({ name: "Users", url: configHelper.discordWebhookUrls.users }),
-        PrismaModule,
         AuthModule,
+        PrismaModule,
         ImgBBModule,
     ],
     controllers: [UsersController],

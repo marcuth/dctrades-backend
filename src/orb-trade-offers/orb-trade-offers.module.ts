@@ -7,7 +7,7 @@ import { UsersModule } from "../users/users.module"
 import { AuthModule } from "../auth/auth.module"
 
 @Module({
-    imports: [PrismaModule, AuthModule, UsersModule],
+    imports: [PrismaModule, UsersModule, AuthModule],
     controllers: [OrbTradeOffersController],
     providers: [
         {

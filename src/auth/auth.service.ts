@@ -48,7 +48,7 @@ export class AuthService {
         return user
     }
 
-    async registerWithFirebase(signUpWithFirebaseDto: SignUpWithFirebaseDto) {
+    async signUpWithFirebase(signUpWithFirebaseDto: SignUpWithFirebaseDto) {
         const { uid, email, name, picture: avatarUrl } = await this.verifyToken(signUpWithFirebaseDto.token)
 
         let user: User

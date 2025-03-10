@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common"
+import { Injectable, InternalServerErrorException } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import axios from "axios"
 
@@ -12,7 +12,7 @@ export class ImgBBService {
         const apiKey = this.configService.get<string>("IMGBB_API_KEY")
 
         if (!apiKey) {
-            throw new HttpException("ImgBB API key is not configured", HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new InternalServerErrorException("ImgBB API key is not configured")
         }
 
         const base64Image = imageBuffer.toString("base64")
@@ -27,7 +27,7 @@ export class ImgBBService {
 
             return response.data.data.url
         } catch (error) {
-            throw new HttpException("Error uploading image to ImgBB", HttpStatus.BAD_GATEWAY)
+            throw new InternalServerErrorException("Error uploading image to ImgBB")
         }
     }
 }

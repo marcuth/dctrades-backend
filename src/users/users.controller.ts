@@ -10,13 +10,13 @@ import { UsersService } from "./users.service"
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
-    @Get("by-firebase-uid/:firebaseUid")
-    async findByFirebaseUid(@Param("firebaseUid") firebaseUid: string) {
+    @Get(":firebaseUid/firebase")
+    async findOneByFirebaseUid(@Param("firebaseUid") firebaseUid: string) {
         return await this.usersService.findOneByFirebaseUid(firebaseUid)
     }
 
-    @Get("by-username/:username")
-    async findByUsername(@Param("username") username: string) {
+    @Get("username/:username")
+    async findOneByUsername(@Param("username") username: string) {
         return await this.usersService.findOneByUsername(username)
     }
 

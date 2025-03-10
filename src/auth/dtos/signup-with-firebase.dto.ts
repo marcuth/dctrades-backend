@@ -9,7 +9,7 @@ export class SignUpWithFirebaseDto {
     @IsJWT()
     token: string
 
-    @ApiProperty({ required: true })
+    @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
     @MinLength(configHelper.users.minNameLength)

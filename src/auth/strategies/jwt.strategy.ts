@@ -4,7 +4,7 @@ import { Injectable } from "@nestjs/common"
 import { User } from "@prisma/client"
 
 @Injectable()
-export class JtwStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor() {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

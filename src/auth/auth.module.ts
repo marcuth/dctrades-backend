@@ -4,7 +4,7 @@ import { JwtModule } from "@nestjs/jwt"
 
 import { FirebaseStrategy } from "./strategies/firebase.strategy"
 import { LocalStrategy } from "./strategies/local.strategy"
-import { JtwStrategy } from "./strategies/jwt.strategy"
+import { JwtStrategy } from "./strategies/jwt.strategy"
 import { UsersModule } from "../users/users.module"
 import { AuthController } from "./auth.controller"
 import { AuthService } from "./auth.service"
@@ -18,7 +18,7 @@ import { AuthService } from "./auth.service"
             signOptions: { expiresIn: process.env.JWT_SIGN_EXPIRES_IN },
         }),
     ],
-    providers: [AuthService, LocalStrategy, JtwStrategy, FirebaseStrategy],
+    providers: [AuthService, LocalStrategy, JwtStrategy, FirebaseStrategy],
     controllers: [AuthController],
     exports: [AuthService],
 })

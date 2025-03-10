@@ -4,7 +4,6 @@ import { UserRole } from "@prisma/client"
 import { ResourceService } from "../interfaces/resource-service.interface"
 import { AuthenticatedRequest } from "../../auth/guards/roles.guard"
 import messageHelper from "../../helpers/message.helper"
-import { UsersService } from "../../users/users.service"
 import { OwnershipGuard } from "./ownership.guard"
 
 export class IsOnwnerOrAdminGuard<T> extends OwnershipGuard<T> implements CanActivate {

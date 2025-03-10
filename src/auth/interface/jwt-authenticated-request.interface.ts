@@ -3,7 +3,7 @@ import { UserRole } from "@prisma/client"
 import { Request } from "express"
 
 export interface JwtAuthenticatedUser {
-    id: number
+    id: string
     email: string
     username: string
     role: UserRole

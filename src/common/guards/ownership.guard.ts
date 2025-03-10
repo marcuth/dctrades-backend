@@ -1,8 +1,11 @@
 import { ExecutionContext, ForbiddenException, Inject, UnauthorizedException } from "@nestjs/common"
-import { User } from "@prisma/client"
 
+import { FirebaseAuthenticatedUser } from "../../auth/interface/firebase-authenticated-request.interface"
+import { JwtAuthenticatedUser } from "../../auth/interface/jwt-authenticated-request.interface"
 import { ResourceService } from "../interfaces/resource-service.interface"
 import messageHelper from "../../helpers/message.helper"
+
+export type AuthenticatedUser = JwtAuthenticatedUser | FirebaseAuthenticatedUser
 
 export class OwnershipGuard<T> {
     constructor(
@@ -12,7 +15,7 @@ export class OwnershipGuard<T> {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest()
-        const user = request.user as User | undefined
+        const user = request.user as AuthenticatedUser
 
         if (!user) {
             throw new UnauthorizedException(messageHelper.REQUEST_WITHOUT_AUTHORIZATION_TOKEN)

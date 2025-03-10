@@ -2,7 +2,7 @@ import { Controller, Get, Body, Patch, Param, UseGuards, Req, UseInterceptors, U
 import { FileInterceptor } from "@nestjs/platform-express"
 
 import { FirebaseAuthenticatedRequest } from "../auth/interface/firebase-authenticated-request.interface"
-import { FirebaseAuthGuard } from "../auth/guards/firebase-auth.guard"
+import { MultiAuthGuard } from "../auth/guards/multi-auth.guard"
 import { UpdateUserDto } from "./dto/update-user.dto"
 import { UsersService } from "./users.service"
 
@@ -26,7 +26,7 @@ export class UsersController {
     }
 
     @Patch()
-    @UseGuards(FirebaseAuthGuard)
+    @UseGuards(MultiAuthGuard)
     @UseInterceptors(FileInterceptor("avatar"))
     async update(
         @Body() updateUserDto: UpdateUserDto,

@@ -1,9 +1,10 @@
 import { CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common"
 import { UserRole } from "@prisma/client"
 
-import { AuthenticatedRequest } from "../../auth/interface/firebase-authenticated-request.interface"
 import { ResourceService } from "../interfaces/resource-service.interface"
+import { AuthenticatedRequest } from "../../auth/guards/roles.guard"
 import messageHelper from "../../helpers/message.helper"
+import { UsersService } from "../../users/users.service"
 import { OwnershipGuard } from "./ownership.guard"
 
 export class IsOnwnerOrAdminGuard<T> extends OwnershipGuard<T> implements CanActivate {

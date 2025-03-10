@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common"
-import { Prisma, User } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 import { omit } from "lodash"
 import sharp from "sharp"
 

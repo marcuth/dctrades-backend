@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common"
 import { Prisma, User } from "@prisma/client"
+import { omit } from "lodash"
 import sharp from "sharp"
 
 import { DiscordWebhookService } from "../discord-webhook/discord-webhook.service"
@@ -75,7 +76,7 @@ export class UsersService {
         return user
     }
 
-    async findByEmail(email: string, includeSensitiveInfo: boolean = false): Promise<User> {
+    async findOneByEmail(email: string, includeSensitiveInfo: boolean = false) {
         const user = await this.prisma.user.findFirst({
             where: {
                 email: email,
@@ -102,7 +103,7 @@ export class UsersService {
         return user
     }
 
-    async findOneByFirebaseUid(firebaseUid: string, includeSensitiveInfo: boolean = false): Promise<User> {
+    async findOneByFirebaseUid(firebaseUid: string, includeSensitiveInfo: boolean = false) {
         const user = await this.prisma.user.findFirst({
             where: {
                 firebaseUid: firebaseUid,
@@ -151,7 +152,7 @@ export class UsersService {
             )
         }
 
-        return user
+        return omit(user, ["password"])
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {
@@ -175,7 +176,7 @@ export class UsersService {
             avatarUrl = await this.imgBBService.uploadImage(resizedImage)
         }
 
-        return await this.prisma.user.update({
+        const user = await this.prisma.user.update({
             where: {
                 id: id,
             },
@@ -216,5 +217,7 @@ export class UsersService {
                 preferences: true,
             },
         })
+
+        return user
     }
 }

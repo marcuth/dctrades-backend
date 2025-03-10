@@ -1,4 +1,5 @@
 import { UserRole } from "@prisma/client"
+
 import { Request } from "express"
 
 export interface JwtAuthenticatedUser {
@@ -11,4 +12,3 @@ export interface JwtAuthenticatedUser {
 export interface JwtAuthenticatedRequest extends Request {
     user: JwtAuthenticatedUser
 }
-

@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common"
 import { Prisma } from "@prisma/client"
-import { omit } from "lodash"
 import sharp from "sharp"
 
 import { DiscordWebhookService } from "../discord-webhook/discord-webhook.service"
@@ -152,7 +151,7 @@ export class UsersService {
             )
         }
 
-        return omit(user, ["password"])
+        return user
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {

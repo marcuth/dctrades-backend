@@ -6,8 +6,8 @@ import { IsOwnerOrAdminGuardFactory } from "../common/factories/is-owner-or-admi
 import { OwnershipGuardFactory } from "../common/factories/ownership-guard.factory"
 import { UpdateOrbTradeOfferDto } from "./dto/update-orb-trade-offer.dto"
 import { CreateOrbTradeOfferDto } from "./dto/create-orb-trade-offer.dto"
-import { OrbTradeOffersService } from "./orb-trade-offers.service"
 import { FirebaseAuthGuard } from "../auth/guards/firebase-auth.guard"
+import { OrbTradeOffersService } from "./orb-trade-offers.service"
 import configHelper from "../helpers/config.helper"
 
 @Controller("orb-trade-offers")

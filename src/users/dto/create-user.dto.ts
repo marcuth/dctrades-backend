@@ -4,10 +4,11 @@ import { ApiProperty } from "@nestjs/swagger"
 import regexHelper from "../../helpers/regex.helper"
 
 export class CreateUserDto {
-    @ApiProperty()
+    @ApiProperty({ required: false })
+    @IsOptional()
     @IsNotEmpty()
     @IsString()
-    firebaseUid: string
+    firebaseUid?: string
 
     @ApiProperty()
     @IsNotEmpty()

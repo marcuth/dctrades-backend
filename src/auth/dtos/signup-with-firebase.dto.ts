@@ -1,14 +1,18 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { IsJWT, IsOptional, IsString, MaxLength, MinLength } from "class-validator"
 import { ApiProperty } from "@nestjs/swagger"
+
+import configHelper from "../../helpers/config.helper"
 
 export class SignUpWithFirebaseDto {
     @ApiProperty()
     @IsString()
-    @IsNotEmpty()
+    @IsJWT()
     token: string
 
     @ApiProperty({ required: true })
     @IsOptional()
     @IsString()
+    @MinLength(configHelper.users.minNameLength)
+    @MaxLength(configHelper.users.maxNameLength)
     name?: string
 }

@@ -18,6 +18,7 @@ const messageHelper = {
     NO_IMAGES_SENT: "No images were sent.",
     NON_PROPORTIONAL_IMAGE: "The image must be square.",
     FILE_IS_NOT_IMAGE: "The uploaded file is not an image.",
+    EMAIL_OR_USERNAME_OR_PASSWORD_IS_NOT_VALID: "Invalid email/username and/or password!",
 } satisfies Record<string, Message>
 
 export default messageHelper

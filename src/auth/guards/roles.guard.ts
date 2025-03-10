@@ -2,9 +2,12 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { UserRole } from "@prisma/client"
 import { Reflector } from "@nestjs/core"
 
-import { AuthenticatedRequest } from "../types/authenticated-request.type"
+import { FirebaseAuthenticatedRequest } from "../interface/firebase-authenticated-request.interface"
+import { JwtAuthenticatedRequest } from "../interface/jwt-authenticated-request.interface"
 import { ROLES_KEY } from "../decorators/roles.decorator"
 import messageHelper from "../../helpers/message.helper"
+
+export type AuthenticatedRequest = FirebaseAuthenticatedRequest | JwtAuthenticatedRequest
 
 @Injectable()
 export class RolesGuard implements CanActivate {

@@ -1,7 +1,7 @@
 import { Controller, Get, Body, Patch, Param, UseGuards, Req, UseInterceptors, UploadedFile } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 
-import { AuthenticatedRequest } from "../auth/types/authenticated-request.type"
+import { FirebaseAuthenticatedRequest } from "../auth/interface/firebase-authenticated-request.interface"
 import { FirebaseAuthGuard } from "../auth/guards/firebase-auth.guard"
 import { UpdateUserDto } from "./dto/update-user.dto"
 import { UsersService } from "./users.service"
@@ -30,7 +30,7 @@ export class UsersController {
     @UseInterceptors(FileInterceptor("avatar"))
     async update(
         @Body() updateUserDto: UpdateUserDto,
-        @Req() req: AuthenticatedRequest,
+        @Req() req: FirebaseAuthenticatedRequest,
         @UploadedFile() avatar?: Express.Multer.File,
     ) {
         return await this.usersService.update(req.user.id, {

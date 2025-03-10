@@ -3,7 +3,8 @@ import { FirebaseAdmin, InjectFirebaseAdmin } from "nestjs-firebase"
 import * as admin from "firebase-admin"
 import { User } from "@prisma/client"
 
-import { LoginOrRegisterDto } from "./dtos/login-or-register.dto"
+import { SignUpWithFirebaseDto } from "./dtos/signup-with-firebase.dto"
+import { SignInWithFirebaseDto } from "./dtos/signin-with-firebase.dto"
 import generateUsername from "../utils/generate-username.util"
 import messageHelper from "../helpers/message.helper"
 import { UsersService } from "../users/users.service"
@@ -27,8 +28,28 @@ export class AuthService {
         }
     }
 
-    async registerOrLoginWithFirebase(loginOrRegisterDto: LoginOrRegisterDto) {
-        const { uid, email, name, picture: avatarUrl } = await this.verifyToken(loginOrRegisterDto.token)
+    async signInWithFirebase(loginWithFirebaseDto: SignInWithFirebaseDto) {
+        const { uid: firebaseUid } = await this.verifyToken(loginWithFirebaseDto.token)
+
+        let user: User
+
+        try {
+            user = await this.usersService.findOneByFirebaseUid(firebaseUid)
+        } catch (error: any) {
+            throw new UnauthorizedException(
+                messageHelper.OBJECT_NOT_FOUND({
+                    name: "User",
+                    property: "firebaseUid",
+                    propertyValue: firebaseUid
+                })
+            )
+        }
+
+        return user
+    }
+
+    async registerWithFirebase(signUpWithFirebaseDto: SignUpWithFirebaseDto) {
+        const { uid, email, name, picture: avatarUrl } = await this.verifyToken(signUpWithFirebaseDto.token)
 
         let user: User
 
@@ -39,12 +60,13 @@ export class AuthService {
                 throw error
             }
 
-            const generatedUsername = generateUsername(name ?? loginOrRegisterDto.name ?? "user")
+            const userName = name ?? signUpWithFirebaseDto.name ?? "Unknown User"
+            const generatedUsername = generateUsername(userName)
 
             user = await this.usersService.create({
                 firebaseUid: uid,
                 email: email,
-                name: name ?? loginOrRegisterDto.name ?? "Unknown User",
+                name: userName,
                 avatarUrl: avatarUrl,
                 username: generatedUsername,
             })

@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, ParseIntPipe } from "@nestjs/common"
 import { OrbTradeOffer } from "@prisma/client"
 
+import { FirebaseAuthenticatedRequest } from "../auth/interface/firebase-authenticated-request.interface"
 import { IsOwnerOrAdminGuardFactory } from "../common/factories/is-owner-or-admin-guard.factory"
 import { OwnershipGuardFactory } from "../common/factories/ownership-guard.factory"
-import { AuthenticatedRequest } from "../auth/types/authenticated-request.type"
 import { UpdateOrbTradeOfferDto } from "./dto/update-orb-trade-offer.dto"
 import { CreateOrbTradeOfferDto } from "./dto/create-orb-trade-offer.dto"
 import { OrbTradeOffersService } from "./orb-trade-offers.service"
@@ -16,7 +16,7 @@ export class OrbTradeOffersController {
 
     @Post()
     @UseGuards(FirebaseAuthGuard)
-    async create(@Body() createOrbTradeOfferDto: CreateOrbTradeOfferDto, @Req() req: AuthenticatedRequest) {
+    async create(@Body() createOrbTradeOfferDto: CreateOrbTradeOfferDto, @Req() req: FirebaseAuthenticatedRequest) {
         return await this.orbTradeOffersService.create({
             ...createOrbTradeOfferDto,
             ownerId: req.user.id,

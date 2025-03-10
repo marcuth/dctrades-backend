@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common"
 import { UserRole } from "@prisma/client"
 
-import { AuthenticatedRequest } from "../../auth/types/authenticated-request.type"
+import { AuthenticatedRequest } from "../../auth/interface/firebase-authenticated-request.interface"
 import { ResourceService } from "../interfaces/resource-service.interface"
 import messageHelper from "../../helpers/message.helper"
 import { OwnershipGuard } from "./ownership.guard"
